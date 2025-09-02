@@ -18,8 +18,8 @@ public class Pivot {
     public static final double MAX_TICKS = 2100;
     public static final double MIN_TICKS = 0.0;
 
-    public static final double INTAKE = 2100;
-    public static final double OUTAKE = 0.0;
+    public static final double INTAKE = 0;
+    public static final double OUTAKE = 2100;
 
     private PIDController controller;
     public static double p = 0, i = 0.0, d = 0;
@@ -29,7 +29,6 @@ public class Pivot {
     public static double target = 0;
     public static DcMotorEx motorPivot = null;
     private static Pivot instance = null;
-    private PivotState pivotState = PivotState.OUTAKE;
 //    private PIDController controller; ???
 
     private TelemetryManager telemetryManager = null;
@@ -50,7 +49,15 @@ public class Pivot {
         motorPivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
+
+
     public void loop(){
+        runToTarget();
+    }
+    public void setTarget(double pos){
+        target = pos;
+    }
+    private void runToTarget(){
         controller.setPID(p,i,d);
         int armPos = motorPivot.getCurrentPosition();
         double pid = controller.calculate(armPos,target);
@@ -70,15 +77,6 @@ public class Pivot {
     public double getAngle(){
         return Math.toRadians(target  /ticks_in_degrees);
     }
-    public void setOutake(){
-        target = OUTAKE;
-    }
-    public void setIntake(){
-        target = INTAKE;
-    }
 
-    enum PivotState{
-        INTAKE,OUTAKE,INBETWEEN
-    }
 
 }
