@@ -6,6 +6,8 @@ import org.firstinspires.ftc.teamcode.PrimeTech.Gamepad.Gamepad;
 
 public class AllModes {
 
+    private final double INTAKE_PIVOT = 100;
+    private final double OUTAKE_PIVOT = 2000;
     private static AllModes instance;
     private State state;
     private Retract retract;
@@ -17,30 +19,50 @@ public class AllModes {
     }
     public void loop(){
         switch (retract){
-            case IDLE:
-                if(Gamepad.getInstance().dpad_down()) {
-                    components = Modes.Components.EXTENSION;
-                }
             case EXTENSION:
                 Extension.getInstance().setTarget(0);
                 if(Extension.getInstance().isDone()){
-                    components= Modes.Components.PIVOT;
+                    retract = Retract.PIVOT;
                 }
                 break;
             case PIVOT:
                 Pivot.getInstance().setTarget(0);
                 if(Pivot.getInstance().isDone()){
-                    components= Modes.Components.IDLE;
+                    retract = Retract.IDLE;
+                }
+                break;
+            case IDLE:
+                switch (state){
+                    case INTAKE:
+                        Pivot.getInstance().setTarget(INTAKE_PIVOT);
+                        break;
+                    case OUTAKE:
+                        Pivot.getInstance().setTarget(OUTAKE_PIVOT);
+                        break;
+                    case IDLE:
+                        Pivot.getInstance().setTarget(0);
+                        Extension.getInstance().setTarget(0);
+                        break;
                 }
                 break;
         }
-            switch (state){
-
-            }
-        }
     }
+
+    public void Intake(){
+        retract = Retract.EXTENSION;
+        state = State.INTAKE;
+    }
+
+    public void Outake(){
+        retract = Retract.EXTENSION;
+        state = State.OUTAKE;
+    }
+    public void Idle(){
+
+    }
+
     enum State{
-        RESET,INTAKE,OUTAKE
+        RESET,INTAKE,OUTAKE,IDLE
     }
     enum Retract{
         PIVOT,EXTENSION,IDLE,

@@ -18,10 +18,15 @@ public class Claw {
     private static Claw instance;
     private Servo rotationServo;
     private Servo openingServo;
+    private Servo servoLeft;
+    private Servo servoRight;
     public double pos=0.5;
     public double openPos=1;
 
 
+    public final double PARALLEL = 0.5;
+    public final double DOWN = 1;
+    public final double UP = 0;
     public final double OPENED = 0.9;
     public final double CLOSED = 0.55;
 
@@ -39,8 +44,12 @@ public class Claw {
     public void init(){
         rotationServo = hardwareMap.get(Servo.class, "rotationServo");
         openingServo = hardwareMap.get(Servo.class,"openingServo");
+        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
+        servoRight = hardwareMap.get(Servo.class, "servoRight");
         openingServo.setPosition(OPENED);
         rotationServo.setPosition(MID);
+        servoLeft.setPosition(DOWN);
+        servoRight.setPosition(DOWN);
 
     }
     public void loop(){

@@ -36,9 +36,9 @@ public class MainTeleOp extends OpMode {
         Gamepad.getInstance().init();
 //        DriveTrain.getInstance().init();
 //        Tray.getInstanc  ,me().init();
-//        Pivot.getInstance().init();
-//        Claw.getInstance().init();
-        Extension.getInstance().init();
+        Pivot.getInstance().init();
+        Claw.getInstance().init();
+//        Extension.getInstance().init();
 
     }
 
@@ -48,10 +48,10 @@ public class MainTeleOp extends OpMode {
 
 
         Gamepad.getInstance().loop();
-//        Claw.getInstance().loop();
-        Extension.getInstance().loop();
+        Claw.getInstance().loop();
+//        Extension.getInstance().loop();
 //        DriveTrain.getInstance().loop();
 //        Tray.getInstance().loop();
-//        Pivot.getInstance().loop();
+        Pivot.getInstance().loop();
     }
 }

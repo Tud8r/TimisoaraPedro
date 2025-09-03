@@ -51,7 +51,7 @@ public class Pivot {
 
         motorPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorPivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        motorPivot.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 
@@ -87,9 +87,9 @@ public class Pivot {
         graphManager.addData("target" , target);
         graphManager.update();
 
-//        telemetry.addData("pos",armPos);
-//        telemetry.addData("target",target);
-//        telemetry.update();
+        telemetry.addData("pos",armPos);
+        telemetry.addData("target",target);
+        telemetry.update();
     }
     public double getAngle(){
         return Math.toRadians(motorPivot.getCurrentPosition()  / ticks_in_degrees);
