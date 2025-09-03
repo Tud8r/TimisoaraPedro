@@ -24,8 +24,8 @@ public class Pivot {
     public static final double OUTAKE = 2100;
 
     private PIDController controller;
-    public static double p = 0, i = 0.0, d = 0;
-    public static double f = 0.0;
+    public static double p = 0.0011, i = 0.0, d = 0.0001;
+    public static double f = 0.1;
 
     public static final double ticks_in_degrees = (double) 8192 / 360;
     public static double target = 0;
