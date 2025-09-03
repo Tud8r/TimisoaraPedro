@@ -32,6 +32,7 @@ public class Claw {
 
     public final double MID = 0.5;
 
+    boolean open = true;
     public TelemetryManager tele = PanelsTelemetry.INSTANCE.getTelemetry();
 
     public static synchronized Claw getInstance() {
@@ -51,33 +52,52 @@ public class Claw {
         servoLeft.setPosition(DOWN);
         servoRight.setPosition(DOWN);
 
+
     }
     public void loop(){
 
 
-        if(Gamepad.getInstance().circle()){
-            pos=pos + 0.05;
-        }
-        if(Gamepad.getInstance().square())
-        {
-            pos=pos-0.05;
-        }
-        if(Gamepad.getInstance().triangle()){
-            open();
-        }
+//        if(Gamepad.getInstance().circle()){
+//            pos=pos + 0.05;
+//        }
+//        if(Gamepad.getInstance().square())
+//        {
+//            pos=pos-0.05;
+//        }
+
         if(Gamepad.getInstance().cross()){
+            setOpen();
+        }
+
+
+
+//        telemetry.addData("pos",rotationServo.getPosition());
+//        telemetry.addData("openpos",openingServo.getPosition());
+//        telemetry.update();
+
+    }
+    public void setOpen(){
+        if(open){
             close();
         }
-        if(Gamepad.getInstance().dpad_up()){
-            center();
+        else{
+            open();
         }
+        open = !open;
 
 
-
-        telemetry.addData("pos",rotationServo.getPosition());
-        telemetry.addData("openpos",openingServo.getPosition());
-        telemetry.update();
-
+    }
+    public void setUp(){
+        servoLeft.setPosition(UP);
+        servoRight.setPosition(UP);
+    }
+    public void setDown(){
+        servoLeft.setPosition(DOWN);
+        servoRight.setPosition(DOWN);
+    }
+    public void setForward(){
+        servoLeft.setPosition(MID);
+        servoRight.setPosition(MID);
     }
     public void open(){
         openingServo.setPosition(OPENED);

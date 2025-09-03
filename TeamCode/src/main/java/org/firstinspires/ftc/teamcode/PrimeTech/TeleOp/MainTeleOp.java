@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.PrimeTech.Components.Claw;
+import org.firstinspires.ftc.teamcode.PrimeTech.Components.Control;
 import org.firstinspires.ftc.teamcode.PrimeTech.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.PrimeTech.Components.Extension;
 import org.firstinspires.ftc.teamcode.PrimeTech.Components.Pivot;
@@ -34,12 +35,16 @@ public class MainTeleOp extends OpMode {
         Global.gamepad1 = gamepad1;
         Global.telemetry = telemetry;
         Gamepad.getInstance().init();
-//        DriveTrain.getInstance().init();
-//        Tray.getInstanc  ,me().init();
+        DriveTrain.getInstance().init();
         Pivot.getInstance().init();
         Claw.getInstance().init();
-//        Extension.getInstance().init();
+        Extension.getInstance().init();
 
+    }
+
+    @Override
+    public void init_loop() {
+        Pivot.getInstance().runToTarget();
     }
 
     @Override
@@ -49,9 +54,9 @@ public class MainTeleOp extends OpMode {
 
         Gamepad.getInstance().loop();
         Claw.getInstance().loop();
-//        Extension.getInstance().loop();
-//        DriveTrain.getInstance().loop();
-//        Tray.getInstance().loop();
+        Extension.getInstance().loop();
+        DriveTrain.getInstance().loop();
         Pivot.getInstance().loop();
+        Control.getInstance().loop();
     }
 }

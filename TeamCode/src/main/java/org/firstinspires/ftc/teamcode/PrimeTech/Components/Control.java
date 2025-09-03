@@ -13,6 +13,7 @@ public class Control {
     }
 
     public void loop(){
+        AllModes.getInstance().loop();
         if(Gamepad.getInstance().dpad_up()){
             AllModes.getInstance().Outake();
         }

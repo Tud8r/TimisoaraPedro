@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.PrimeTech.Components;
 
+import static org.firstinspires.ftc.teamcode.PrimeTech.Global.Global.telemetry;
+
 import android.widget.Switch;
 
 import org.firstinspires.ftc.teamcode.PrimeTech.Gamepad.Gamepad;
@@ -9,8 +11,8 @@ public class AllModes {
     private final double INTAKE_PIVOT = 100;
     private final double OUTAKE_PIVOT = 2000;
     private static AllModes instance;
-    private State state;
-    private Retract retract;
+    private State state = State.IDLE;
+    private Retract retract = Retract.PIVOT;
     public static synchronized AllModes getInstance() {
         if (instance == null) {
             instance = new AllModes();
@@ -18,6 +20,8 @@ public class AllModes {
         return instance;
     }
     public void loop(){
+//        telemetry.addData("retract",retract);
+//        telemetry.addData("state",state);
         switch (retract){
             case EXTENSION:
                 Extension.getInstance().setTarget(0);
@@ -35,9 +39,11 @@ public class AllModes {
                 switch (state){
                     case INTAKE:
                         Pivot.getInstance().setTarget(INTAKE_PIVOT);
+                        Claw.getInstance().setDown();
                         break;
                     case OUTAKE:
                         Pivot.getInstance().setTarget(OUTAKE_PIVOT);
+                        Claw.getInstance().setUp();
                         break;
                     case IDLE:
                         Pivot.getInstance().setTarget(0);
@@ -49,12 +55,14 @@ public class AllModes {
     }
 
     public void Intake(){
-        retract = Retract.EXTENSION;
+//        retract = Retract.EXTENSION;
+        retract = Retract.PIVOT;
         state = State.INTAKE;
     }
 
     public void Outake(){
-        retract = Retract.EXTENSION;
+//        retract = Retract.EXTENSION;
+        retract = Retract.PIVOT;
         state = State.OUTAKE;
     }
     public void Idle(){

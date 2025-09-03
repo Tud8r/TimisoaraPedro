@@ -25,7 +25,7 @@ public class Extension {
     public static double p = 0, i = 0.0, d = 0;
     public static double f = 0.0;
 
-    private static double target = 0;
+    public static double target = 0;
 
     private TelemetryManager telemetryManager = null;
     private GraphManager graphManager = PanelsGraph.INSTANCE.getManager();

@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @Configurable
 public class Pivot {
 
-    public static final double MAX_TICKS = 2100;
+    public static final double MAX_TICKS = 2700;
     public static final double MIN_TICKS = 0.0;
 
     public static final double INTAKE = 0;
@@ -52,6 +52,8 @@ public class Pivot {
         motorPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorPivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorPivot.setDirection(DcMotorSimple.Direction.REVERSE);
+        target = 1700;
+
     }
 
 
@@ -69,7 +71,7 @@ public class Pivot {
     }
 
 
-    private void runToTarget(){
+    public void runToTarget(){
         controller.setPID(p,i,d);
         int armPos = motorPivot.getCurrentPosition();
         double pid = controller.calculate(armPos,target);
@@ -87,9 +89,9 @@ public class Pivot {
         graphManager.addData("target" , target);
         graphManager.update();
 
-        telemetry.addData("pos",armPos);
-        telemetry.addData("target",target);
-        telemetry.update();
+//        telemetry.addData("pos",armPos);
+//        telemetry.addData("target",target);
+//        telemetry.update();
     }
     public double getAngle(){
         return Math.toRadians(motorPivot.getCurrentPosition()  / ticks_in_degrees);
