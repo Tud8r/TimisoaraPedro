@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.PrimeTech.Components;
 
 import static org.firstinspires.ftc.teamcode.PrimeTech.Global.Global.hardwareMap;
+import static org.firstinspires.ftc.teamcode.PrimeTech.Global.Global.telemetry;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
@@ -71,11 +72,11 @@ public class Extension {
         controller.setPID(p,i,d);
 
         double armPos = rightMotor.getCurrentPosition();
-        double pid = controller.calculate(target, armPos);
+        double pid = controller.calculate(armPos, target);
 
-        double ff = Math.sin(Pivot.getInstance().getAngle()) * f;
-        double power = pid + ff;
-
+//        double ff = Math.sin(Pivot.getInstance().getAngle()) * f;
+//        double power = pid + ff;
+        double power  = pid ;
         leftMotor.setPower(power);
         rightMotor.setPower(power);
 
@@ -87,6 +88,10 @@ public class Extension {
         graphManager.addData("pos" , armPos);
         graphManager.addData("target" , target);
         graphManager.update();
+
+        telemetry.addData("pos",armPos);
+        telemetry.addData("target",target);
+        telemetry.update();
     }
     public boolean isDone(){
         return (Math.abs(rightMotor.getCurrentPosition()-target)<tolerance);

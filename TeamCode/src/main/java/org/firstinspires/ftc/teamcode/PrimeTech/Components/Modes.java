@@ -20,6 +20,11 @@ public class Modes {
 
 
     public  Components components = Components.EXTENSION;
+
+    public void loop(){
+
+    }
+
     public void Reset(){
         switch (components){
             case IDLE:
