@@ -22,4 +22,5 @@ public class Tray {
             motor.setPower(0.1);
         }
     }
+
 }

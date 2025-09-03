@@ -16,6 +16,8 @@ public class ServoInit extends OpMode {
 
     @Override
     public void loop() {
-        servo.setPosition(0.5);
+        servo.setPosition(1);
+        telemetry.addData("pos",servo.getPosition());
+        telemetry.update();
     }
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.PrimeTech.Components;
 
 import static org.firstinspires.ftc.teamcode.PrimeTech.Global.Global.hardwareMap;
+import static org.firstinspires.ftc.teamcode.PrimeTech.Global.Global.telemetry;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.graph.GraphManager;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Configurable
 public class Pivot {
@@ -31,6 +33,7 @@ public class Pivot {
     private static Pivot instance = null;
 //    private PIDController controller; ???
 
+    public static double tolerance = 100;
     private TelemetryManager telemetryManager = null;
     private GraphManager graphManager = PanelsGraph.INSTANCE.getManager();
 
@@ -45,6 +48,7 @@ public class Pivot {
         controller = new PIDController(p,i,d);
         telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
         motorPivot = hardwareMap.get(DcMotorEx.class, "motorPivot");
+
         motorPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorPivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -57,25 +61,41 @@ public class Pivot {
     public void setTarget(double pos){
         target = pos;
     }
+    public void setIntake(){
+        target = INTAKE;
+    }
+    public void setOutake(){
+
+    }
+
+
     private void runToTarget(){
         controller.setPID(p,i,d);
         int armPos = motorPivot.getCurrentPosition();
         double pid = controller.calculate(armPos,target);
         double ff = Math.cos(getAngle()) * f;
-        double power = pid + ff;
+        double power = (pid + ff);
 
         motorPivot.setPower(power);
 
         telemetryManager.addData("pos" , armPos);
         telemetryManager.addData("target" , target);
+        telemetryManager.addData("isDone" , isDone());
         telemetryManager.update();
 
         graphManager.addData("pos" , armPos);
         graphManager.addData("target" , target);
         graphManager.update();
+
+//        telemetry.addData("pos",armPos);
+//        telemetry.addData("target",target);
+//        telemetry.update();
     }
     public double getAngle(){
-        return Math.toRadians(target  /ticks_in_degrees);
+        return Math.toRadians(motorPivot.getCurrentPosition()  / ticks_in_degrees);
+    }
+    public boolean isDone(){
+        return (Math.abs(motorPivot.getCurrentPosition()-target)<tolerance);
     }
 
 
